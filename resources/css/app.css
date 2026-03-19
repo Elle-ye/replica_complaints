@@ -1,0 +1,19 @@
+/* app.css */
+/* Import MetroUI first */
+/* @import '@olton/metroui/lib/metro.all.css'; */
+
+/* Then Tailwind - this helps Tailwind's utilities override MetroUI */
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* Then your custom CSS */
+/* @import './self.css'; */

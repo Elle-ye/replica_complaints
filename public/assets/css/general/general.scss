@@ -1,0 +1,89 @@
+$gray1: #cecece;
+
+.dark-side {
+    $gray1: pink;
+}
+
+// .navview-content{
+//     background-color: violet ;
+// }
+
+// Navview
+// .navview-pane a {
+//     &:active {
+//         background-color: $gray1;
+//         // color: var(--navview-item-color-hover);
+//         // text-decoration: none;
+//     }
+// }
+
+.pagination {
+    display: flex;
+    gap: 5px;       /* spacing between items */
+    justify-content: center;
+    margin-top: 20px;
+
+    // .span{
+    //     display: none !important;
+    // }
+}
+
+// .pagination li {
+//     list-style: none;
+// }
+
+.pagination a,
+.pagination span {
+    display: inline-block;
+    // padding: 5px 10px;  /* shrink padding */
+    // font-size: 14px;    /* smaller text */
+    // border: 1px solid #ccc;
+    // border-radius: 4px;
+    // text-decoration: none;
+    // color: #333;
+}
+
+// .pagination a:hover {
+//     background-color: #0078D7; /* Metro blue hover */
+//     color: white;
+// }
+
+// .pagination .active span {
+//     background-color: #0078D7;
+//     color: white;
+//     border-color: #0078D7;
+// }   
+
+.pagination svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Login page  */
+.card-width{
+    min-width: 500px;
+}
+
+// password eye
+.password-wrapper {
+    position: relative;
+    width: 100%; 
+}
+
+.password-input {
+    width: 100%;
+    padding-right: 40px; /* space for the eye icon */
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #777;
+}
+
+.toggle-password:hover {
+    color: #000;
+}

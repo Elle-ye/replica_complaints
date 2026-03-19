@@ -1,0 +1,125 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Branches;
+use App\Models\Department;
+use Illuminate\Http\Request;
+
+class DataCollectionController extends Controller
+{
+    // Departments
+    public function index(){
+        return view('data_collection/departments');
+
+        //  $departments=Department::all();
+         
+        // return view('data_collection/departments', compact('departments'));
+    }
+
+    // DataTable
+    public function departments_datatable(){
+        $departments = Department::all();
+        return response()->json([
+            'data'=> $departments->map(function($department){
+                return [
+                'id' => $department->id,
+                'departmentName' => $department->departmentName,
+                'created_at' => $department->created_at->format('d/m/Y g:ia'),
+                'updated_at' => $department->updated_at->format('d/m/Y g:ia'),
+                'actions'=> '
+                    <button data-id="'.$department->id.'" 
+                            data-name="'.$department->departmentName.'" 
+                            class="button info outline editBtn">Edit</button>
+                    <button data-id="'.$department->id.'" 
+                            class="button primary outline deleteBtn">Delete</button>
+                '
+    ];
+            })
+        ]);
+    }
+
+    public function departments_store(Request $req){
+        $req -> validate([
+            'departmentName'=> 'required|string|max:250|unique:departments,departmentName'
+        ]);
+
+        $department = Department::create($req->all());
+
+        return response()->json([
+            'success'=> true,
+            'message' => 'Department Added Successfully!',
+            'department' => [
+                'id' => $department->id,
+                'departmentName' => $department->departmentName,
+                'created_at' => $department->created_at->format('d/m/Y g:ia')
+    ]
+        ]);
+    }
+
+    // Update Department
+    public function departments_update(Request $req, $id){
+        $req -> validate([
+            'departmentName'=> 'required|string|max:250|unique:departments,departmentName'
+        ]);
+
+        $department = Department::findOrFail($id);
+        $department->update($req->all());
+
+        return response()->json([
+            'success'=> true,
+            'message'=>'Department Updated Successfully!',
+            'department'=>[
+                'id'=> 'id',
+                'departmentName'=>$department->departmentName
+            ]
+        ]);
+    }
+
+    // Delete department
+    public function department_destroy($id){
+        Department::findOrFail($id)->delete();
+
+        return response()->json([
+            'success'=> true,
+            'message' => 'Department deleted successfully!'
+        ]);
+    }
+
+    // Bulk Delete department
+    public function bulk_department_destroy(Request $request){
+        Department::whereIn('id', $request->ids)->delete();
+
+        return response()->json([
+            'success'=> true,
+            'message' => 'Departments deleted successfully!'
+        ]);
+    }
+    
+
+    // Branches
+    public function branches_create(){
+        $branches=Branches::all();
+        return view('data_collection/branches');
+    }
+
+    public function branches_store(Request $req){
+        $req->validate([
+            'branchName'=>'required|string|max:250|unique:branch,branchName',
+            'region'=>'required|string|max:250'
+        ]);
+
+        $branch=Branches::create($req->all());
+
+        return response()->json([
+            'success'=> true,
+            'message'=>'Branch Added Successfully!',
+            'branch'=>[
+                'id'=> $branch->id,
+                'branchName'=>$branch->branchName,
+                'region'=>$branch->region,
+                'created_at'=> $branch->created_at->format('d/m/Y g:ia')
+            ]
+        ]);
+    }
+}

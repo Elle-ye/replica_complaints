@@ -1,0 +1,44 @@
+.pagination {
+  display: flex;
+  gap: 5px; /* spacing between items */
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination a,
+.pagination span {
+  display: inline-block;
+}
+
+.pagination svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Login page  */
+.card-width {
+  min-width: 500px;
+}
+
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-input {
+  width: 100%;
+  padding-right: 40px; /* space for the eye icon */
+}
+
+.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #777;
+}
+
+.toggle-password:hover {
+  color: #000;
+}
