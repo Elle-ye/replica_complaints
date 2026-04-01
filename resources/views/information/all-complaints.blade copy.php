@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('styles')
+{{-- @section('styles')
     <link rel="stylesheet" href="{{ asset('assets/css/self/graphs.css') }}">
-@endsection
+@endsection --}}
 
 @section('content')
-    <h2>Dashboard</h2>
+    <h2>All Compliant Tickets</h2>
 
     <!-- breadcrumbs -->
     <ul class="breadcrumbs" style="--breadcrumbs-background: #f0f0f0; --breadcrumbs-color: #333333;">
-        <li class="active" data-divider="›"><a href="#"><span class="icon mif-home"></span>Dashboard</a></li>
+        <li class="active" data-divider="›"><a href="#"><span class="icon mif-home"></span>All Complaint Tickets</a></li>
         {{-- <li data-divider="›"><a href="#">Library</a></li>
     <li class="active"><a href="#">Data</a></li> --}}
     </ul>
@@ -27,24 +27,28 @@
 
     {{-- Table Content --}}
     <div class="mt-6">
-        <h4>Recent Users</h4>
 
         <div class="card shadow-medium">
             <table class="table striped">
                 <thead>
                     <tr>
                         <th><input type="checkbox" id="selectAll"></th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Company Name</th>
-                        <th>Address</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Additional Info</th>
+                        <th>Ticket ID</th>
+                        <th>Complaint Type</th>
+                        <th>Complaint Sub-Type</th>
+                        <th>Complaint Subject</th>
+                        <th>Ticket Status</th>
+                        <th>Customer Name</th>
+                        <th>Account Number</th>
+                        <th>Card Number</th>
+                        <th>Contact Number</th>
+                        <th>Origin</th>
+                        <th>Contact Number</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($users as $user)
+                    {{-- @foreach ($complaints as $complaint)
                         <tr>
                             <td><input type="checkbox" class="rowCheckBox"></td>
                             <td>{{ $user->fname }}</td>
@@ -55,19 +59,19 @@
                             <td>{{ $user->telNumber }}</td>
                             <td>{{ $user->additionalInfo }}</td>
                         </tr>
-                    @endforeach
+                    @endforeach --}}
                 </tbody>
             </table>
-            <div class="mt-3 pagination">
+            {{-- <div class="mt-3 pagination">
                 {{ $users -> links() }}
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('/assets/js/self/sample-info.js') }}"></script>
-    <script>
+    <script src="{{ asset('assets/js/self/all-complaints.js') }}"></script>
+    {{-- <script>
         $('#selectAll').on('change', function() {
             $('.rowCheckBox').prop('checked', this.checked)
         });
@@ -79,5 +83,5 @@
                 $('#selectAll').prop('checked', false)
             }
         })
-    </script>
+    </script> --}}
 @endsection

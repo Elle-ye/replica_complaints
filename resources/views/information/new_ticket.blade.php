@@ -40,7 +40,7 @@
                         <div class="cell-sm-12 cell-md-4">
                             <div class="form-group">
                                 <label class="" for="date">Date</label>
-                                <input type="date" id="date" class="" name="date" required />
+                                <input type="date" id="date" class="" name="date" value="{{ date('Y-m-d') }}" readonly />
                             </div>
                         </div>
                         <div class="cell-12 cell-md-4">
@@ -211,12 +211,12 @@
                             <div class="form-group mb-4">
                                 <label class="form-label" for="complaintType">Complaint Type</label>
                                 {{-- <input class="form-control" id="complaintType" name="complaintType" /> --}}
-                                <select  id="ageRange" name="complaintType">
-                                    <option value="select">Select Complaint Type</option>
-                                    <option value="GH-Link">GH-Link</option>
-                                    <option value="MasterCard">MasterCard</option>
-                                    <option value="WebLink">WebLink</option>
-                                    <option value="FastLink">FastLink</option>
+                                <select  id="complaintType" name="complaintType">
+                                    <option value="">Select Complaint Type</option>
+                                    @foreach ($category as $complaintCat)
+                                            <option value="{{ $complaintCat->id }}" data-id="{{ $complaintCat->id }}">{{ $complaintCat->categoryName }}
+                                            </option>
+                                        @endforeach
                                 </select>
                             </div>
                         </div>
@@ -225,11 +225,11 @@
                                 <label class="form-label" for="complaintSubType">Complaint Sub-Type</label>
                                 {{-- <input class="form-control" id="complaintSubType" name="complaintSubType" /> --}}
                                 <select  id="complaintSubType" name="complaintSubType">
-                                    <option value="select">Select Complaint Sub-Type</option>
-                                    <option value="Activation">Activation</option>
-                                    <option value="Re-Issue">Re-Issue</option>
-                                    <option value="Deactivate">Deactivate</option>
-                                    <option value="Modify">Modify</option>
+                                    <option value="">Select Sub-Complaint Type</option>
+                                    {{-- @foreach ($subCategory as $complaintSubCat)
+                                            <option value="{{ $complaintSubCat->subCategoryName }}" id="{{ $complaintSubCat->id }}">{{ $complaintSubCat->subCategoryName }}
+                                            </option>
+                                        @endforeach --}}
                                 </select>
                             </div>
                         </div>
@@ -253,4 +253,18 @@
 @section('scripts')
     <script src="{{ asset('assets/js/self/new-ticket.js') }}"></script>
     {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
+    {{-- <script>
+        $(document).ready(function(){
+            // const today = new Date().toISOString().split('T')[0];
+            // $('input[name="date"]').attr('min', today);
+
+
+            // so filter subCat depending on the option chosen in Cat
+            // If SubCat belongs to cat_id..., show
+            // if(SubCat ){
+            //      
+            // }
+            $('#newTicket').
+        })
+    </script> --}}
 @endsection

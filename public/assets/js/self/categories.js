@@ -1,8 +1,8 @@
 $(function () {
-    // Department DataTable
-    let table = $("#departmentsTable").DataTable({
+    // Branches DataTable
+    let table = $("#categoriesTable").DataTable({
         ajax: {
-            url: "/departments/datatable",
+            url: "/categories/datatable",
             type: "GET",
         },
         columns: [
@@ -14,51 +14,46 @@ $(function () {
                     return '<input type="checkbox" class="rowCheckBox">';
                 },
             },
-            { data: "departmentName" },
+            { data: "categoryName" },
+            { data: "subCategory" }, //List of Sub-Categories
             { data: "created_at" },
-            { data: "updated_at" },
+            // { data: "updated_at" },
             { data: "actions", orderable: false, searchable: false },
         ],
-        order: [[2, "desc"]],
+        order: [[3, "desc"]],
         pageLength: 10,
         scrollX: true,
         lengthMenu: [
-        [10, 25, 50, 100, -1],        // ✅ -1 means "All"
-        [10, 25, 50, 100, 'All']       // ✅ label shown in dropdown
-    ],
+            [10, 25, 50, 100, -1], // ✅ -1 means "All"
+            [10, 25, 50, 100, "All"], // ✅ label shown in dropdown
+        ],
         language: {
-        search: 'Search:',
-        lengthMenu: 'Show _MENU_ entries',
-        info: 'Showing _START_ to _END_ of _TOTAL_ entries',
-        emptyTable: 'No departments found.',
-        zeroRecords: 'No matching records found.',
-        paginate: {
-            previous: '&laquo;',
-            next: '&raquo;'
-        }
-    }
+            search: "Search:",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ entries",
+            emptyTable: "No branches found.",
+            zeroRecords: "No matching records found.",
+            paginate: {
+                previous: "&laquo;",
+                next: "&raquo;",
+            },
+        },
     });
 
-    // Checkbox
     initCheckboxes();
-    
-    // Delete
     initDelete({
-        deleteUrl: "/departments",
-        bulkDeleteUrl: "/departments",
+        deleteUrl: "/category",
+        bulkDeleteUrl: "/categories",
         table: table,
         dialogId: "#deleteDialog",
-        bulkDialogId: "#bulkDeleteDialog"
+        bulkDialogId: "#bulkDeleteDialog",
     });
 
-    // });
-
-    // // Add Departments
-    // $(function () {
-    $("#departmentAdd").on("submit", function (event) {
+    // // Add Branch
+    $("#categoryAdd").on("submit", function (event) {
         event.preventDefault();
         $.ajax({
-            url: "/departments",
+            url: "/categories",
             method: "POST",
             data: $(this).serialize(),
             beforeSend: function () {
@@ -70,9 +65,9 @@ $(function () {
             success: function (response) {
                 console.log(response);
                 Metro.toast.create(response.message, null, 3000, "success");
-                table.ajax.reload(); //  reload DataTable instead of manually appending row
+                table.ajax.reload(); // reload DataTable instead of manually appending row
 
-                $("#departmentAdd")[0].reset();
+                $("#categoryAdd")[0].reset();
                 $("#submitBtn")
                     .prop("disabled", false)
                     .text("Submit")
@@ -91,7 +86,6 @@ $(function () {
                         "alert",
                     );
                 }
-                // $("#departmentAdd")[0].reset();
                 $("#submitBtn")
                     .prop("disabled", false)
                     .text("Submit")
@@ -99,50 +93,40 @@ $(function () {
             },
         });
     });
-    // });
 
-    // Edit Department
-    let editId = null;
-    let editRow = null;
-
-    // Open edit dialog
-    $(document).on("click", ".editBtn", function () {
-        editId = $(this).data("id");
-        editRow = $(this).closest("tr");
-        $("#editDepartmentName").val($(this).data("name")); //  pre-fill current name
-        Metro.dialog.open("#editDialog");
+    // open dialog with category id
+    $(document).on("click", ".addSubCategoryBtn", function () {
+        $("#subCategoryParentId").val($(this).data("id")); // ✅ store category id
+        $("#newSubCategoryName").val("");
+        Metro.dialog.open("#addSubCategoryDialog");
     });
 
-    // Confirm edit
-    $(document).on("click", "#confirmEdit", function () {
-        if (!editId) return;
+    // confirm add subcategory
+    $(document).on("click", "#confirmAddSubCategory", function () {
+        let categoryId = $("#subCategoryParentId").val();
+        let subCategoryName = $("#newSubCategoryName").val();
 
         $.ajax({
-            url: "/departments/" + editId,
+            url: "/subcategories",
             method: "POST",
             data: {
-                _method: "PUT", // Laravel PUT spoofing
                 _token: $('meta[name="csrf-token"]').attr("content"),
-                departmentName: $("#editDepartmentName").val(),
+                category_id: categoryId,
+                subCategoryName: subCategoryName,
             },
             beforeSend: function () {
-                $("#confirmEdit")
+                $("#confirmAddSubCategory")
                     .prop("disabled", true)
-                    .text("Updating...")
+                    .text("Adding...")
                     .css({ cursor: "wait", pointerEvents: "none" });
             },
             success: function (response) {
-                console.log("Here");
                 Metro.toast.create(response.message, null, 3000, "success");
-                table.ajax.reload();
-                Metro.dialog.close("#editDialog");
-
-                editId = null;
-                editRow = null;
-
-                $("#confirmEdit")
+                table.ajax.reload(); // ✅ reload table to show new subcategory
+                Metro.dialog.close("#addSubCategoryDialog");
+                $("#confirmAddSubCategory")
                     .prop("disabled", false)
-                    .text("Update")
+                    .text("Add")
                     .css({ cursor: "pointer", pointerEvents: "auto" });
             },
             error: function (xhr) {
@@ -152,16 +136,15 @@ $(function () {
                     Metro.toast.create(msg, null, 3000, "alert");
                 } else {
                     Metro.toast.create(
-                        "Failed to update department!",
+                        "Failed to add sub-category!",
                         null,
                         3000,
                         "alert",
                     );
                 }
-
-                $("#confirmEdit")
+                $("#confirmAddSubCategory")
                     .prop("disabled", false)
-                    .text("Update")
+                    .text("Add")
                     .css({ cursor: "pointer", pointerEvents: "auto" });
             },
         });
