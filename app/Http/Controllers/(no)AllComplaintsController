@@ -1,0 +1,11 @@
+<?php
+
+namespace App\Http\Controllers;
+
+// use App\Models\NewTicket;
+use Illuminate\Http\Request;
+
+class AllComplaintsController extends Controller
+{
+    // 
+}

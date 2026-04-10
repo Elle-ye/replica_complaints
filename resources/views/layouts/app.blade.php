@@ -59,16 +59,16 @@
                 </li>
                 <li class="{{ request()->routeIs('new.ticket') ? 'active' : '' }}">
                     <a href="{{ route('new.ticket') }}">
-                        <span class="icon"><span class="mif-home"></span></span>
+                        {{-- <span class="icon"><span class="mif-home"></span></span> --}}
                         <span class="caption">New Ticket</span>
                     </a>
                 </li>
-                {{-- <li class="{{ request()->routeIs('registered.users') ? 'active' : '' }}">
-                    <a href="{{ route('registered.users') }}">
-                        <span class="icon"><span class="mif-home"></span></span>
-                        <span class="caption">Some Information</span>
+                <li class="{{ request()->routeIs('all.complaints') ? 'active' : '' }}">
+                    <a href="{{ route('all.complaints') }}">
+                        {{-- <span class="icon"><span class=""></span></span> --}}
+                        <span class="caption">All Complaint Tickets</span>
                     </a>
-                </li> --}}
+                </li>
                 <li class="">
                     <a href="#" id="logout">
                         {{-- <span class="icon"><span class="mif-home"></span></span> --}}
@@ -83,7 +83,7 @@
                     <ul class="navview-menu" data-role="collapse">
                         <li><a href="{{ route('departments') }}"><span class="caption">Departments</span></a></li>
                         <li><a href="{{ route('branches') }}"><span class="caption">Branches</span></a></li>
-                        <li><a href="#"><span class="caption">Security</span></a></li>
+                        <li><a href="{{ route('categories') }}"><span class="caption">Categories</span></a></li>
                     </ul>
                 </li>
             </ul>

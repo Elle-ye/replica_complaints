@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branches;
+use App\Models\Category;
 use App\Models\Department;
 use App\Models\NewTicket;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,8 +17,16 @@ class NewTicketController extends Controller
          $departments=Department::all();
          $branches = Branches::all();
          $ticketID = NewTicket::generateTicketID();
+         $category = Category::all();
+         $subCategory= SubCategory::all();
          
-        return view('information/new_ticket', compact('departments', 'branches', 'ticketID'));
+        return view('information/new_ticket', compact('departments', 'branches', 'ticketID','category', 'subCategory'));
+    }
+
+    // Fetch SubCategories
+    public function get_subcategories($category_id){
+        $subCategories = SubCategory::where('category_id', $category_id)->get();
+        return response()->json($subCategories);
     }
     
 

@@ -1,5 +1,40 @@
 // Add New Ticket
 $(function () {
+    // Fetching Sub-Complaint categories
+
+    $(document).on("change", "#complaintType", function () {
+        let selectedCatId = $(this).find(":selected").data("id");
+        let subCatTypeSelect = $("#complaintSubType");
+
+        subCatTypeSelect
+            .empty()
+            .append('<option value="">Select Complaint Sub-Type</option>');
+
+        if (!selectedCatId) return;
+
+        console.log(selectedCatId);
+        $.ajax({
+            url: '/subcategories/' + selectedCatId,
+            method: "GET",
+            success: function (response) {
+                $.each(response, function (index, subCategory) {
+                    subCatTypeSelect.append(
+                        `<option value="${subCategory.id}">${subCategory.subCategoryName}</option>`
+                    );
+                });
+            },
+            error: function () {
+                Metro.toast.create(
+                    "Failed to load sub-categories!",
+                    null,
+                    3000,
+                    "alert",
+                );
+            },
+        });
+    });
+
+    // New Ticket Submission
     $("#newTicket").on("submit", function (event) {
         event.preventDefault();
         $.ajax({

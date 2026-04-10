@@ -15,11 +15,11 @@
     </div>
 @endif --}}
 
-    <h2>Branches</h2>
+    <h2>Categories</h2>
 
     <!-- breadcrumbs -->
     <ul class="breadcrumbs mb-5" style="--breadcrumbs-background: #f0f0f0; --breadcrumbs-color: #333333;">
-        <li class="active" data-divider="›"><a href="#"><span class="icon mif-home"></span>Branches</a></li>
+        <li class="active" data-divider="›"><a href="#"><span class="icon mif-home"></span>Categories</a></li>
         {{-- <li data-divider="›"><a href="#">Library</a></li>
     <li class="active"><a href="#">Data</a></li> --}}
     </ul>
@@ -28,39 +28,27 @@
             <div class=" cell-md-12 flex-align-center">
                 <div class="mt-10">
                     <div class="w-50">
-                        <button class="info outline" type="button" id="showBranchForm">Add New Branch</button>
-                        <button class="secondary outline" type="button" id="cancelShowBranchForm">Cancel</button>
+                        <button class="info outline" type="button" id="showCategoryForm">Add New Category</button>
+                        <button class="secondary outline" type="button" id="cancelShowCategoryForm">Cancel</button>
                     </div>
                     <div id="branchForm">
-                        <form action="{{ route('branches.datatable') }}" method="POST" id="branchAdd">
+                        <form method="POST" id="categoryAdd">
                             @csrf
                             <div class="row my-5">
                                 <div class="cell-sm-12 cell-md-6">
                                     <div class="form-group mb-4">
-                                        <label class="form-label" for="branchName">Branch Name</label>
-                                        <input class="form-control" id="branchName" name="branchName"
+                                        <label class="form-label" for="category">Category</label>
+                                        <input class="form-control" id="category" name="categoryName"
                                             type="text" />
                                     </div>
                                 </div>
                                 <div class="cell-sm-12 cell-md-6">
                                     <div class="form-group mb-4">
-                                        <label class="form-label" for="region">Region</label>
-                                        <input class="form-control" id="region" name="region"
+                                        <label class="form-label" for="subCategory">Sub Category</label>
+                                        <input class="form-control" id="subCategory" name="subCategoryName"
                                             type="text" />
                                     </div>
                                 </div>
-                                {{-- <div class="cell-sm-12 cell-md-4">
-                                <div class="form-group mb-4">
-                                    <label class="form-label" for="complaintSubType">Complaint Sub-Type</label>
-                                    <select name="" id="ageRange" name="complaintSubType">
-                                        <option value="select">Select Complaint Sub-Type</option>
-                                        <option value="Activation">Activation</option>
-                                        <option value="Re-Issue">Re-Issue</option>
-                                        <option value="Deactivate">Deactivate</option>
-                                        <option value="Modify">Modify</option>
-                                    </select>
-                                </div>
-                            </div> --}}
                             </div>
 
 
@@ -78,12 +66,12 @@
                 </div>
                 <div id="" class="mt-15">
                     <div class="card shadow-medium">
-                        <table id="branchesTable" class="table striped">
+                        <table id="categoriesTable" class="table striped">
                             <thead>
                                 <tr>
                                     <th><input type="checkbox" id="selectAll"></th>
-                                    <th>Branch Name</th>
-                                    <th>Region</th>
+                                    <th>Category</th>
+                                    <th>Sub-Category</th>
                                     <th>Date Created</th>
                                     <th>Action</th>
                                 </tr>
@@ -99,11 +87,25 @@
     </div>
 
     {{-- Modals --}}
+    <div class="dialog" id="addSubCategoryDialog" data-role="dialog">
+    <div class="dialog-title">Add Sub-Category</div>
+    <div class="dialog-content">
+        <input type="hidden" id="subCategoryParentId"> {{-- ✅ stores category id --}}
+        <div class="form-group">
+            <label>Sub-Category Name</label>
+            <input type="text" id="newSubCategoryName" class="form-control" placeholder="Sub-Category Name">
+        </div>
+    </div>
+    <div class="dialog-actions">
+        <button class="button js-dialog-close">Cancel</button>
+        <button id="confirmAddSubCategory" class="button info">Add</button>
+    </div>
+</div>
     {{-- Edit --}}
     <div class="dialog" id="editDialog" data-role="dialog">
         <div class="dialog-title">Edit Branch</div>
         <div class="dialog-content">
-            <input type="text" id="editBranchName" class="form-control" placeholder="Branch Name">
+            <input type="text" id="editCategoryName" class="form-control" placeholder="Category Name">
         </div>
         <div class="dialog-actions">
             <button class="button js-dialog-close">Cancel</button>
@@ -113,8 +115,8 @@
 
     {{-- Delete --}}
     <div class="dialog" id="deleteDialog" data-role="dialog">
-        <div class="dialog-title">Delete Branch?</div>
-        <div class="dialog-content">Are you sure you want to delete this Branch?</div>
+        <div class="dialog-title">Delete Category?</div>
+        <div class="dialog-content">Are you sure you want to delete this Category?</div>
         <div class="dialog-actions">
             <button class="button js-dialog-close">Cancel</button>
             <button id="confirmDelete" class="button alert">Delete</button>
@@ -123,8 +125,8 @@
 
     {{-- Bulk Delete --}}
     <div class="dialog" id="bulkDeleteDialog" data-role="dialog">
-        <div class="dialog-title">Delete Branches?</div>
-        <div class="dialog-content">Are you sure you want to delete these Branches?</div>
+        <div class="dialog-title">Delete Categories?</div>
+        <div class="dialog-content">Are you sure you want to delete these Categories?</div>
         <div class="dialog-actions">
             <button class="button js-dialog-close">Cancel</button>
             <button id="confirmBulkDelete" class="button alert">Delete</button>
@@ -132,24 +134,24 @@
     </div>
 @endsection
 @section('scripts')
-    <script src="{{ asset('assets/js/self/branches.js') }}"></script>
+    <script src="{{ asset('assets/js/self/categories.js') }}"></script>
     {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
     <script>
         $(function() {
             $('#branchForm').hide();
-            $('#cancelShowBranchForm').hide();
+            $('#cancelShowCategoryForm').hide();
 
-            $('#showBranchForm').on('click', function() {
+            $('#showCategoryForm').on('click', function() {
                 $(this).fadeOut(200, function() { //  fade out Add button first
                     $('#branchForm').slideDown(300); //  then slide form down
-                    $('#cancelShowBranchForm').fadeIn(200); //  then fade in Cancel
+                    $('#cancelShowCategoryForm').fadeIn(200); //  then fade in Cancel
                 });
             });
 
-            $('#cancelShowBranchForm').on('click', function() {
+            $('#cancelShowCategoryForm').on('click', function() {
                 $('#branchForm').slideUp(300, function() { //  slide form up first
-                    $('#cancelShowBranchForm').fadeOut(100); //  then fade out Cancel
-                    $('#showBranchForm').fadeIn(200); //  then fade in Add button
+                    $('#cancelShowCategoryForm').fadeOut(100); //  then fade out Cancel
+                    $('#showCategoryForm').fadeIn(200); //  then fade in Add button
                 });
             });
         });

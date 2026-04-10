@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DataCollection\AllComplaintsController;
 use App\Http\Controllers\DataCollection\BranchesController;
+use App\Http\Controllers\DataCollection\CategoriesController;
 use App\Http\Controllers\DataCollection\DepartmentController;
 use App\Http\Controllers\NewTicketController;
 use Illuminate\Support\Facades\Route;
@@ -36,8 +38,10 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/new_ticket', [NewTicketController::class, 'index'])->name('new.ticket');
     Route::post('/new_ticket', [NewTicketController::class, 'ticket_store']);
     
-    // // Fetch Registered Users
-    // Route::get('information/info', [InformationController::class, 'index'])-> name('registered.users');
+    // All Complaint Tickets
+    Route::get('/all-complaints', [AllComplaintsController::class, 'index'])-> name('all.complaints');
+    Route::get('/all-complaints/datatable', [AllComplaintsController::class, 'all_complaints_datatable']);
+
     
     // Download Sample Table
     // Route::get('download_table', [InformationController::class, 'download_table']);
@@ -61,6 +65,16 @@ Route::middleware(['auth'])->group(function(){
     Route::put('/branches/{id}', [BranchesController::class, 'branches_update'])->name('branches.update');
     Route::delete('/branches/{id}', [BranchesController::class, 'branches_destroy'])->name('branches.destroy');
     Route::delete('/branches', [BranchesController::class, 'bulk_branch_destroy'])->name('branch.bulk_destroy');
+
+    // Categories
+    Route::get('/categories', [CategoriesController::class, 'index'])->name('categories');
+    Route::post('/categories', [CategoriesController::class, 'category_store']);
+    Route::get('/categories/datatable', [CategoriesController::class, 'category_datatable'])->name('categories.datatable');
+    Route::post('/subcategories', [CategoriesController::class, 'subcategory_store'])->name('subcategories.store');
+    Route::get('/subcategories/{category_id}', [CategoriesController::class, 'get_subcategories'])->name('subcategories.get');
+    // Route::put('/categories/{id}', [CategoriesController::class, 'categories_update'])->name('categories.update');
+    // Route::delete('/category/{id}', [CategoriesController::class, 'category_destroy'])->name('category.destroy');
+    // Route::delete('/categories', [CategoriesController::class, 'bulk_categories_destroy'])->name('categories.bulk_destroy');
 
 });
 
