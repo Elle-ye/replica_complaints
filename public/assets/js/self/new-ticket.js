@@ -12,7 +12,7 @@ $(function () {
 
         if (!selectedCatId) return;
 
-        console.log(selectedCatId);
+        // console.log(selectedCatId);
         $.ajax({
             url: '/subcategories/' + selectedCatId,
             method: "GET",

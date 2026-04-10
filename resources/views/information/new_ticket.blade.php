@@ -119,7 +119,7 @@
                                 <label class="form-label" for="channel">Channel</label>
                                 {{-- <input class="form-control" id="channel" name="channel" /> --}}
                                 <select  id="channel" name="channel">
-                                    <option value="select">Select Channel</option>
+                                    <option value="">Select Channel</option>
                                     <option value="Phone Call">Phone Call</option>
                                     <option value="Handwritten - Post delivered">Handwritten - Post delivered</option>
                                     <option value="Text Message">Text Message</option>
@@ -223,13 +223,9 @@
                         <div class="cell-sm-12 cell-md-4">
                             <div class="form-group mb-4">
                                 <label class="form-label" for="complaintSubType">Complaint Sub-Type</label>
-                                {{-- <input class="form-control" id="complaintSubType" name="complaintSubType" /> --}}
                                 <select  id="complaintSubType" name="complaintSubType">
-                                    <option value="">Select Sub-Complaint Type</option>
-                                    {{-- @foreach ($subCategory as $complaintSubCat)
-                                            <option value="{{ $complaintSubCat->subCategoryName }}" id="{{ $complaintSubCat->id }}">{{ $complaintSubCat->subCategoryName }}
-                                            </option>
-                                        @endforeach --}}
+                                    <option value="">Select Complaint Sub-Type</option>
+                                    
                                 </select>
                             </div>
                         </div>

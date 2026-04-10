@@ -200,6 +200,18 @@ function initDelete(config){
     });
 }
 
+// $(function(){
+//     $('#filterBtn').on('click', function(){
+//         table.ajax.reload();
+//     })
+
+//     $('#resetBtn').on('click', function(){
+//         $('#dateStart').val('');
+//         $('#dateEnd').val('');
+//         table.ajax.reload();
+//     })
+// })
+
 // $(function () {
 //     // Fetch Departments - New Ticket page
 //     function loadDepartments() {

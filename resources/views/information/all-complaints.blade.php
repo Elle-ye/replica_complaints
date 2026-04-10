@@ -26,13 +26,111 @@
     <div class="grid">
         <div class="row flex-justify-center">
             <div class=" cell-md-12 flex-align-center">
-                <div class="mt-10">
-                    <div class="w-50">
+                <div class="mt-10 p-3 card shadow-medium">
+                    {{-- <div class="w-50">
                         <button class="info outline" type="button" id="showBranchForm">Add New Branch</button>
                         <button class="secondary outline" type="button" id="cancelShowBranchForm">Cancel</button>
+                    </div> --}}
+
+                    {{-- Filters --}}
+                    <div class="filter-section">
+                        <div class="row">
+                            {{-- Dates Start --}}
+                            <div class="col-md-3">
+                                <label>From Date:</label>
+                                <input type="date" id="dateStart" class="form-control" name="dateStart">
+                            </div>
+                            <div class="col-md-3">
+                                <label>To Date:</label>
+                                <input type="date" id="dateEnd" class="form-control" name="dateEnd">
+                            </div>
+                            {{-- Dates End --}}
+
+                            {{-- Complaint Types/SubTypes Start --}}
+                            <div class="col-md-3">
+                                <label>Complaint Type:</label>
+                                <select id="complaintTypeFilter" class="form-control">
+                                    <option value="">All Types</option>
+                                    @foreach ($categories as $complaintCat)
+                                        <option value="{{ $complaintCat->id }}">{{ $complaintCat->categoryName }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Complaint Sub Type:</label>
+                                <select id="complaintSubTypeFilter" class="form-control">
+                                    <option value="">All Sub Types</option>
+                                </select>
+                            </div>
+                            {{-- Complaint Types/SubTypes End --}}
+
+                            {{-- Complaint Origin Start --}}
+                            <div class="col-md-3">
+                                <label>Complaint Origin:</label>
+                                <select name="complaintOriginFilter" id="complaintOriginFilter" class="form-control">
+                                    <option value="">All Departments/Branches</option>
+
+                                    <optgroup label="Departments">
+                                        @foreach ($departments as $department)
+                                            <option value="dept_{{ $department->id }}">{{ $department->departmentName }}
+                                            </option>
+                                        @endforeach
+                                    </optgroup>
+
+                                    <optgroup label="Branches">
+                                        @foreach ($branches as $branch)
+                                            <option value="branch_{{ $branch->id }}">{{ $branch->branchName }}
+                                            </option>
+                                        @endforeach
+                                    </optgroup>
+                                </select>
+                            </div>
+                            {{-- Complaint Origin Ends --}}
+
+                            {{-- Complaint Destination Start --}}
+                            <div class="col-md-3">
+                                <label>Complaint Destination:</label>
+                                <select name="complaintDestinationFilter" id="complaintDestinationFilter"
+                                    class="form-control">
+                                    <option value="">All Departments/Branches</option>
+
+                                    <optgroup label="Departments">
+                                        @foreach ($departments as $department)
+                                            <option value="dept_{{ $department->id }}">{{ $department->departmentName }}
+                                            </option>
+                                        @endforeach
+                                    </optgroup>
+
+                                    <optgroup label="Branches">
+                                        @foreach ($branches as $branch)
+                                            <option value="branch_{{ $branch->id }}">{{ $branch->branchName }}
+                                            </option>
+                                        @endforeach
+                                    </optgroup>
+                                </select>
+                            </div>
+                            {{-- Complaint Destination Ends --}}
+
+                            <div class="col-md-2">
+                                <label>&nbsp;</label>
+                                <button id="filterBtn" class="button primary outline">Filter</button>
+                                <button id="resetBtn" class="btn btn-secondary">Reset</button>
+                            </div>
+                        </div>
                     </div>
-                    
+
                     <div class="w-100">
+                        <div>
+                            <a href="{{ route('export.csv') }}" class="btn btn-success">
+                                Download CSV
+                            </a>
+                        </div>
+                        <div class="export-buttons">
+                            <button id="exportAllBtn" class="btn btn-primary">Export All</button>
+                            <button id="exportFilteredBtn" class="btn btn-info">Export Filtered</button>
+                            <button id="exportSelectedBtn" class="btn btn-success">Export Selected</button>
+                        </div>
                         <div class="w-20 float-right">
                             <button class="button primary outline" id="bulkDeleteBtn">Delete</button>
                         </div>
@@ -54,6 +152,7 @@
                                     <th>Card Number</th>
                                     <th>Contact Number</th>
                                     <th>Origin</th>
+                                    <th>Destination</th>
                                     <th>Date Submitted</th>
                                     <th>Actions</th>
                                 </tr>

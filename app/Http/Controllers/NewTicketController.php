@@ -74,6 +74,10 @@ class NewTicketController extends Controller
             $destinationType = 'branch';
         }
 
+        // When creating a ticket, find the IDs from the names
+        // $category = Category::where('categoryName', $request->complaintType)->first();
+        // $subCategory = SubCategory::where('subCategoryName', $request->complaintSubType)->first();
+
         NewTicket::create([
             'ticketID' => NewTicket::generateTicketID(),
             'date' => $request->date,
@@ -91,8 +95,12 @@ class NewTicketController extends Controller
             'destination_id' => $destinationId,
             'destination_type' => $destinationType,
             'complaintSubject' => $request->complaintSubject,
+//             dd([
+//     'complaintType_from_form' => $request->complaintType,
+//     'complaintSubType_from_form' => $request->complaintSubType,
+// ]),
             'complaintType' => $request->complaintType,
-            'complaintSubType' => $request->complaintSubType,
+            'complaintSubType' =>$request->complaintSubType,
             'complaintDescription' => $request->complaintDescription,
         ]);
 

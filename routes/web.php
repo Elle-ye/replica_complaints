@@ -7,6 +7,7 @@ use App\Http\Controllers\DataCollection\BranchesController;
 use App\Http\Controllers\DataCollection\CategoriesController;
 use App\Http\Controllers\DataCollection\DepartmentController;
 use App\Http\Controllers\NewTicketController;
+use App\Models\SubCategory;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -41,11 +42,12 @@ Route::middleware(['auth'])->group(function(){
     // All Complaint Tickets
     Route::get('/all-complaints', [AllComplaintsController::class, 'index'])-> name('all.complaints');
     Route::get('/all-complaints/datatable', [AllComplaintsController::class, 'all_complaints_datatable']);
+    Route::get('/export-csv', [AllComplaintsController::class, 'exportCSV'])->name('export.csv');
 
-    
-    // Download Sample Table
-    // Route::get('download_table', [InformationController::class, 'download_table']);
-    
+    // Fetch SubCategories/Complaint SubTypes for filter
+    Route::get('/get-sub-types/{categoryId}', function($categoryId) {
+        return SubCategory::where('category_id', $categoryId)->get();
+    });
     
     // Departments
     Route::get('/departments', [DepartmentController::class, 'index'])->name('departments');

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade'); // ✅ links to category
             $table->string('subCategoryName');
-            $table->unique('categoryName', 'subCategoryName');
+            $table->unique(['category_id', 'subCategoryName']);
             $table->timestamps();
         });
     }

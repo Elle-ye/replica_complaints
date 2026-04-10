@@ -34,8 +34,8 @@ return new class extends Migration
             $table->enum('destination_type', ['department', 'branch']);
 
             $table->text('complaintSubject');
-            $table->string('complaintType');
-            $table->string('complaintSubType');
+            $table->foreignId('complaintType')->constrained('categories');
+            $table->foreignId('complaintSubType')->constrained('sub_categories');
             $table->text('complaintDescription');
             $table->timestamps();
         });

@@ -29,12 +29,20 @@ class NewTicket extends Model
         'complaintDescription'
     ];
     
-     // ✅ generate unique ticket ID
+     // generate unique ticket ID
     public static function generateTicketID(){
         do {
             $ticketID = 'TKT-' . strtoupper(Str::random(8)); // e.g TKT-A1B2C3D4
         } while(self::where('ticketID', $ticketID)->exists()); // ✅ ensure uniqueness
 
         return $ticketID;
+    }
+
+    public function complaintCategory(){
+        return $this->belongsTo(Category::class, 'complaintType');
+    }
+
+    public function complaintSubCategory(){
+        return $this->belongsTo(SubCategory::class, 'complaintSubType');
     }
 }
